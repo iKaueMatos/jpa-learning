@@ -1,10 +1,8 @@
 package Dao;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import model.Produto;
 import java.util.List;
-import static jakarta.persistence.Persistence.createEntityManagerFactory;
 
 public class ProdutoDao {
 

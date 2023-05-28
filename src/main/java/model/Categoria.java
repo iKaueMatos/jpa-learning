@@ -25,4 +25,5 @@ public class Categoria {
     public String getNome() {
         return nome;
     }
+
 }

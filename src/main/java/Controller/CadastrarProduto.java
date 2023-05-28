@@ -2,9 +2,12 @@ package Controller;
 
 
 import Dao.CategoriaDao;
+import Dao.ClienteDao;
+import Dao.PedidoDao;
 import Dao.ProdutoDao;
 import jakarta.persistence.EntityManager;
 import model.Categoria;
+import model.Cliente;
 import model.Produto;
 import util.JPAutil;
 
@@ -41,15 +44,18 @@ public class CadastrarProduto {
 
         Categoria celulares = new Categoria("Celulares");
 
-        Produto cliente = new Produto("felipe","Otimo",10, celulares);
+        Produto produto = new Produto("felipe","Otimo",10, celulares);
+
 
         EntityManager insert = JPAutil.getEntityManager();
         ProdutoDao produtoDao = new ProdutoDao(insert);
         CategoriaDao categoriaDao = new CategoriaDao(insert);
+        ClienteDao clienteDao = new ClienteDao(insert);
 
             insert.getTransaction().begin();
+            produtoDao.cadastrar(produto);
             categoriaDao.cadastrar(celulares);
-            produtoDao.cadastrar(cliente);
+
             insert.getTransaction().commit();
             insert.close();
 
