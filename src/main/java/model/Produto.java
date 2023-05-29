@@ -1,70 +1,83 @@
 package model;
 
-
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
+
+
 @Entity
-@Table
+@Table(name = "produtos")
 public class Produto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String nome;
+	private String descricao;
+	private BigDecimal preco;
+	private LocalDate dataCadastro = LocalDate.now();
+	
+	@ManyToOne
+	private Categoria categoria;
+	
+	public Produto() {
+	}
+	
+	public Produto(String nome, String descricao, BigDecimal preco, Categoria categoria) {
+		this.nome = nome;
+		this.descricao = descricao;
+		this.preco = preco;
+		this.categoria = categoria;
+	}
 
-    private String nome;
+	public Long getId() {
+		return id;
+	}
 
-    private String descricao;
-    private int preco;
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    //Muitos para 1
-    @ManyToOne
-    private Categoria categoria;
+	public String getNome() {
+		return nome;
+	}
 
-    private LocalDate dataCadastro = LocalDate.now();
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public Produto(String nome, String descricao, int preco,Categoria categoria) {
-        this.nome = nome;
-        this.descricao = descricao;
-        this.preco = preco;
-        this.categoria = categoria;
-    }
+	public String getDescricao() {
+		return descricao;
+	}
 
-    public Produto() {
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 
-    }
+	public BigDecimal getPreco() {
+		return preco;
+	}
 
+	public void setPreco(BigDecimal preco) {
+		this.preco = preco;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public LocalDate getDataCadastro() {
+		return dataCadastro;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setDataCadastro(LocalDate dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public Categoria getCategoria() {
+		return categoria;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
 
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(int preco) {
-        this.preco = preco;
-    }
 }

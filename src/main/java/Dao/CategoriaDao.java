@@ -1,20 +1,28 @@
 package Dao;
 
 import jakarta.persistence.EntityManager;
+
 import model.Categoria;
 
-
 public class CategoriaDao {
-    private EntityManager inicialize;
+	
+	private EntityManager em;
 
+	public CategoriaDao(EntityManager em) {
+		this.em = em;
+	}
 
-
-    public CategoriaDao(EntityManager inicialize) {
-        this.inicialize = inicialize;
-    }
-
-    public void cadastrar(Categoria categoria) {
-        this.inicialize.persist(categoria);
-    }
+	public void cadastrar(Categoria categoria) {
+		this.em.persist(categoria);
+	}
+	
+	public void atualizar(Categoria categoria) {
+		this.em.merge(categoria);
+	}
+	
+	public void remover(Categoria categoria) {
+		categoria = em.merge(categoria);
+		this.em.remove(categoria);
+	}
 
 }

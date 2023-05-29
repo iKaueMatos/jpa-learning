@@ -1,24 +1,24 @@
 package Dao;
 
 import jakarta.persistence.EntityManager;
+
 import model.Cliente;
-import model.Pedido;
-import model.Produto;
+
 
 public class ClienteDao {
 
-    private EntityManager inicialize;
+	private EntityManager em;
 
-    public ClienteDao(EntityManager inicialize) {
-        this.inicialize = inicialize;
-    }
+	public ClienteDao(EntityManager em) {
+		this.em = em;
+	}
 
     public void cadastrar(Cliente cliente) {
-        this.inicialize.persist(cliente);
-    }
-
-    public Cliente buscarPorid(Long id) {
-        return inicialize.find(Cliente.class,id);
-    }
+		this.em.persist(cliente);
+	}
+	
+	public Cliente buscarPorId(Long id) {
+		return em.find(Cliente.class, id);
+	}
 
 }

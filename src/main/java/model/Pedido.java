@@ -2,52 +2,73 @@ package model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 @Entity
-@Table(name = "pedido")
+@Table(name = "pedidos")
 public class Pedido {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Column(name = "valor_total")
+	private BigDecimal valorTotal = BigDecimal.ZERO;
+	private LocalDate data = LocalDate.now();
 
-    //Muitos para 1
-    @ManyToOne
-    private Cliente cliente;
+	@ManyToOne
+	private Cliente cliente;
+	
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	private List<ItemPedido> itens = new ArrayList<>();
 
-    //1 para muitos
-    //mappedBy = Existe uma outro mapeamento do outro lado
-    //CascateType.All -> Responsavel por fazer com que o pedido seja adiciono no mesmo momento da sua criação em
-    // Ambas as tabelas e também deletado no mesmo momento
-    @OneToMany(mappedBy = "pedido",cascade = CascadeType.ALL)
-    private List<ItensPedido> itens = new ArrayList<>();
+	public Pedido() {
+	}
 
-    private int valor_total;
-    private LocalDate data = LocalDate.now();
+	public Pedido(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	
+	public void adicionarItem(ItemPedido item) {
+		item.setPedido(this);
+		this.itens.add(item);
+		this.valorTotal = this.valorTotal.add(item.getValor());
+	}
 
-    public Pedido() {
+	public Long getId() {
+		return id;
+	}
 
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void adicionarItem(ItensPedido item) {
-        //Agora o item conhece o pedido e pedido conhece o lacal que sera salvo
-        item.setPedido(this);
-        this.itens.add(item);
-    }
+	public BigDecimal getValorTotal() {
+		return valorTotal;
+	}
 
-    public Pedido(Cliente cliente) {
-        this.cliente = cliente;
-    }
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
+	}
 
-    public Cliente getClientes() {
-        return cliente;
-    }
+	public LocalDate getData() {
+		return data;
+	}
 
-    public void setClientes(Cliente clientes) {
-        this.cliente = clientes;
-    }
+	public void setData(LocalDate data) {
+		this.data = data;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 
 }

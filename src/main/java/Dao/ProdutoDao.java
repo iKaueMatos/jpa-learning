@@ -1,56 +1,62 @@
 package Dao;
 
-import jakarta.persistence.EntityManager;
-import model.Produto;
+import java.math.BigDecimal;
 import java.util.List;
+
+import jakarta.persistence.EntityManager;
+
+import model.Produto;
+
 
 public class ProdutoDao {
 
-    private EntityManager inicialize;
+	private EntityManager em;
 
-    public ProdutoDao(EntityManager inicialize) {
-        this.inicialize = inicialize;
-    }
+	public ProdutoDao(EntityManager em) {
+		this.em = em;
+	}
 
-    public void cadastrar(Produto cliente) {
-        this.inicialize.persist(cliente);
-    }
+	public void cadastrar(Produto produto) {
+		this.em.persist(produto);
+	}
 
-    public void atualizar(Produto cliente) {
-        this.inicialize.merge(cliente);
-    }
+	public void atualizar(Produto produto) {
+		this.em.merge(produto);
+	}
 
-    //Faz a busca no banco de dados e retorna o dado para o usuario
-    public Produto buscarPorid(Long id) {
-       return inicialize.find(Produto.class,id);
-    }
-
-    public List<Produto> buscarTodos() {
-        //JPQL -> Java persistece query language
-        String jpql = "SELECT p FROM Produto AS p";
-        //createquery so cria a query ele não dispara ela no banco de dados para obter o disparo da query utilizamos o getResultList
-        return inicialize.createQuery(jpql, Produto.class).getResultList();
-    }
-
-    public List<Produto> buscarPorNome(String nome) {
-        //Consulta com WHERE -> utilizando um parametro no final
-        String jpql = "SELECT p FROM Produto AS p WHERE p.nome = :nome";
-        //createquery so cria a query ele não dispara ela no banco de dados para obter o disparo da query utilizamos o getResultList
-        return inicialize.createQuery(jpql, Produto.class)
-                .setParameter("nome",nome)
-                .getResultList();
-    }
-
-    public int buscarPrecoProdutoLimit(String nome) {
-        //Consulta com WHERE -> utilizando um parametro no final
-        String jpql = "SELECT p.preco FROM Produto AS p WHERE p.nome = :nome";
-        //createquery so cria a query ele não dispara ela no banco de dados para obter o disparo da query utilizamos o getResultList
-        return inicialize.createQuery(jpql, Produto.class)
-                .setParameter("nome",nome)
-                .getSingleResult().getId();
-    }
+	public void remover(Produto produto) {
+		produto = em.merge(produto);
+		this.em.remove(produto);
+	}
+	
+	public Produto buscarPorId(Long id) {
+		return em.find(Produto.class, id);
+	}
+	
+	public List<Produto> buscarTodos() {
+		String jpql = "SELECT p FROM Produto p";
+		return em.createQuery(jpql, Produto.class).getResultList();
+	}
+	
+	public List<Produto> buscarPorNome(String nome) {
+		String jpql = "SELECT p FROM Produto p WHERE p.nome = :nome";
+		return em.createQuery(jpql, Produto.class)
+				.setParameter("nome", nome)
+				.getResultList();
+	}
+	
+	public List<Produto> buscarPorNomeDaCategoria(String nome) {
+		String jpql = "SELECT p FROM Produto p WHERE p.categoria.nome = :nome";
+		return em.createQuery(jpql, Produto.class)
+				.setParameter("nome", nome)
+				.getResultList();
+	}
+	
+	public BigDecimal buscarPrecoDoProdutoComNome(String nome) {
+		String jpql = "SELECT p.preco FROM Produto p WHERE p.nome = :nome";
+		return em.createQuery(jpql, BigDecimal.class)
+				.setParameter("nome", nome)
+				.getSingleResult();
+	}
 
 }
-
-
-
