@@ -1,10 +1,8 @@
 <img src="https://raw.githubusercontent.com/MartinHeinz/MartinHeinz/master/wave.gif" width="30px">
 
 ## JPA Hibernate
-Este é o repositório do meu projeto no GitHub. Aqui, você encontrará informações sobre o projeto, como executá-lo em sua máquina local, as tecnologias utilizadas e como contribuir com o projeto.
+Este é o repositório tem como objetivo mostrar meus estudos em JPA utilizando hibernate mapa a manipulação do banco de dados 
 
-## 📝 Descrição do Projeto
-O projeto é [descreva brevemente o projeto aqui]. Ele foi criado com o objetivo de [objetivo do projeto], e foi desenvolvido utilizando [tecnologias utilizadas].
 
 ## 🚀 Como executar o projeto em sua máquina local
 Para executar o projeto em sua máquina local, siga os passos abaixo:
