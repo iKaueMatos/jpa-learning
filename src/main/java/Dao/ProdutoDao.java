@@ -28,30 +28,38 @@ public class ProdutoDao {
 		produto = em.merge(produto);
 		this.em.remove(produto);
 	}
-	
+
 	public Produto buscarPorId(Long id) {
 		return em.find(Produto.class, id);
 	}
-	
+
 	public List<Produto> buscarTodos() {
 		String jpql = "SELECT p FROM Produto p";
 		return em.createQuery(jpql, Produto.class).getResultList();
 	}
-	
+
 	public List<Produto> buscarPorNome(String nome) {
 		String jpql = "SELECT p FROM Produto p WHERE p.nome = :nome";
 		return em.createQuery(jpql, Produto.class)
 				.setParameter("nome", nome)
 				.getResultList();
 	}
-	
+
+	//NamedQuerie -> 2 maneira de chamar dados de uma querie
+	public List<Produto> buscarPorNomeNamedquey(String nome) {
+		System.out.println("Named Querie -> Annotation");
+		return em.createNamedQuery("Produto.produtosPorNome",Produto.class)
+				.setParameter("nome", nome)
+				.getResultList();
+	}
+
 	public List<Produto> buscarPorNomeDaCategoria(String nome) {
 		String jpql = "SELECT p FROM Produto p WHERE p.categoria.nome = :nome";
 		return em.createQuery(jpql, Produto.class)
 				.setParameter("nome", nome)
 				.getResultList();
 	}
-	
+
 	public BigDecimal buscarPrecoDoProdutoComNome(String nome) {
 		String jpql = "SELECT p.preco FROM Produto p WHERE p.nome = :nome";
 		return em.createQuery(jpql, BigDecimal.class)

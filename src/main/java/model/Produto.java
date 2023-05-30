@@ -9,6 +9,8 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "produtos")
+@NamedQuery(name="Produto.produtosPorNome",query = "SELECT p FROM Produto p WHERE p.nome = :nome") //Conseguimos passar a query na nossa propria entidade
+//E um pouco de desvantagem pelo aspecto do codigo ficar desagornizado mas e possivel ser feito
 public class Produto {
 
 	@Id
