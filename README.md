@@ -7,7 +7,8 @@ Este é o repositório tem como objetivo mostrar meus estudos em JPA utilizando 
 ## 🚀 Como executar o projeto em sua máquina local
 Para executar o projeto em sua máquina local, siga os passos abaixo:
 
-...
+1. instale o itelliJ IDEA
+2.  faça git clone do repositorio no proprio itelliJ
 
 ## 🛠️ Tecnologias Utilizadas
 <img src="https://img.shields.io/badge/-java%201-007ACC?style=flat-square&logo=java&logoColor=white" alt="tecnologia 1">
