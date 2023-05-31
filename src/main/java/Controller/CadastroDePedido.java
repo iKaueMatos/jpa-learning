@@ -51,6 +51,11 @@ public class CadastroDePedido {
 		Pedido pedido1 = pedidoDao.buscarPedidoComCliente(3l);
 		System.out.println(pedido1.getCliente().getNome());
 
+		//Teste criteria
+		PedidoDao BuscarParametrosComCriteria = new PedidoDao(em);
+		List<Produto> pedido2 = pedidoDao.buscaPorParametrosComCriteria("Macbook",null,null);
+		pedido2.forEach(System.out::println);
+
 		em.getTransaction().commit();
 
 	}

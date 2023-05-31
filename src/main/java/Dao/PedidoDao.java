@@ -5,9 +5,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+
 import Vo.RelatorioDeVendasVo;
 
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import model.Pedido;
 import model.Produto;
 
@@ -52,10 +57,10 @@ public class PedidoDao {
 		String jpql = "SELECT p FROM Produto p WHERE  1=1 ";
 
 		if (nome != null && !nome.trim().isEmpty()) {
-			jpql = " AND p.nome = :nome";
+			jpql = " AND p.nome = :nome ";
 		}
 		if (preco != null) {
-			jpql = " AND p.preco = :preco";
+			jpql = " AND p.preco = :preco ";
 		}
 		if (dataCadastro != null) {
 			jpql = " AND p.dataCadastro = :dataCadastro ";
@@ -74,5 +79,36 @@ public class PedidoDao {
 		}
 
 		return query.getResultList();
+	}
+
+	//Criteria API outra maneira de fazer a mesma consulta acima so que otimizado
+	public List<Produto> buscaPorParametrosComCriteria(String nome,BigDecimal preco,LocalDate dataCadastro) {
+		CriteriaBuilder builder = em.getCriteriaBuilder(); // pede para retornar um objetivo do tipo builder
+		CriteriaQuery<Produto> query = builder.createQuery(Produto.class);
+		Root<Produto> from = query.from(Produto.class); // da onde sera disparado a query ?
+
+		Predicate filtros = builder.and();
+		if (nome != null && !nome.trim().isEmpty()) {
+			//Função and -> E
+			//Função equal -> igual
+			//Função get -> pegar um valor ou parametro
+			filtros = builder.and(filtros, builder.equal(from.get("nome"),nome));
+		}
+		if (preco != null) {
+			filtros = builder.and(filtros, builder.equal(from.get("preco"),preco));
+		}
+		if (dataCadastro != null) {
+			filtros = builder.and(filtros, builder.equal(from.get("dataCadastro"),dataCadastro));
+		}
+		query.where(filtros);
+
+		return em.createQuery(query).getResultList();
+	}
+
+	@Override
+	public String toString() {
+		return "PedidoDao{" +
+				"em=" + em +
+				'}';
 	}
 }
