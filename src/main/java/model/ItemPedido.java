@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
-
+//ManyToOne -> muitos para 1
+//oneToMany -> 1 para muitos
+//oneToOne -> 1 para 1
 
 @Entity
 @Table(name = "itens_pedido")
@@ -19,6 +21,7 @@ public class ItemPedido {
 
 	private int quantidade;
 
+	//Muitos para 1
 	//ManyToOne esse tipo de relacionamento sempre tem que ter um fetch = FetchType.Lazy -> Significa que so sera carregado
 	//Se for acessado,se tiver um metodo chamando ele!
 	@ManyToOne(fetch = FetchType.LAZY)
