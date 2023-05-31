@@ -42,9 +42,14 @@ public class CadastroDePedido {
 		BigDecimal MaiorValorDaColuna = pedidoDao. MaiorValorDaColuna();
 		System.out.println("Maior valor da coluna: " +  MaiorValorDaColuna);
 
-
+		//Método de busca RelatorioDeVendasVo
 		List<RelatorioDeVendasVo> relatorioDeDados = pedidoDao.relatorioDeVendas();
 		relatorioDeDados.forEach(System.out::println); // exibindo dados do relatorio
+
+		//Query buscando pedido do cliente
+		PedidoDao BuscarPedidoDoCliente = new PedidoDao(em);
+		Pedido pedido1 = pedidoDao.buscarPedidoComCliente(3l);
+		System.out.println(pedido1.getCliente().getNome());
 
 		em.getTransaction().commit();
 

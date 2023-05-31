@@ -19,10 +19,13 @@ public class ItemPedido {
 
 	private int quantidade;
 
-	@ManyToOne
+	//ManyToOne esse tipo de relacionamento sempre tem que ter um fetch = FetchType.Lazy -> Significa que so sera carregado
+	//Se for acessado,se tiver um metodo chamando ele!
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Pedido pedido;
-
-	@ManyToOne
+	//ManyToOne esse tipo de relacionamento sempre tem que ter um fetch = FetchType.Lazy -> Significa que so sera carregado
+	//Se for acessado,se tiver um metodo chamando ele!
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Produto produto;
 
 	public ItemPedido() {

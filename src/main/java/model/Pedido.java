@@ -20,7 +20,9 @@ public class Pedido {
 	private BigDecimal valorTotal = BigDecimal.ZERO;
 	private LocalDate data = LocalDate.now();
 
-	@ManyToOne
+	//ManyToOne esse tipo de relacionamento sempre tem que ter um fetch = FetchType.Lazy -> Significa que so sera carregado
+	//Se for acessado,se tiver um metodo chamando ele!
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
 	
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
