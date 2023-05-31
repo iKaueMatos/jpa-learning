@@ -2,11 +2,14 @@ package Dao;
 
 import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import Vo.RelatorioDeVendasVo;
 
+import jakarta.persistence.TypedQuery;
 import model.Pedido;
+import model.Produto;
 
 public class PedidoDao {
 
@@ -42,5 +45,34 @@ public class PedidoDao {
 		String jpqlBuscarPedido = "SELECT p FROM Pedido p JOIN FETCH p.cliente WHERE p.id = :id";
 		return em.createQuery(jpqlBuscarPedido,Pedido.class).setParameter("id", id)
 				.getSingleResult();
+	}
+
+	//Consulta dinamica vamos se dizer que um parametro opcional
+	public List<Produto> buscarPorParametros(String nome, BigDecimal preco, LocalDate dataCadastro) {
+		String jpql = "SELECT p FROM Produto p WHERE  1=1 ";
+
+		if (nome != null && !nome.trim().isEmpty()) {
+			jpql = " AND p.nome = :nome";
+		}
+		if (preco != null) {
+			jpql = " AND p.preco = :preco";
+		}
+		if (dataCadastro != null) {
+			jpql = " AND p.dataCadastro = :dataCadastro ";
+		}
+
+		TypedQuery<Produto> query = em.createQuery(jpql, Produto.class);
+
+		if (nome != null && !nome.trim().isEmpty()) {
+			query.setParameter("nome", nome);
+		}
+		if (preco != null) {
+			query.setParameter("preco", preco);
+		}
+		if (dataCadastro != null) {
+			query.setParameter("dataCadastro", dataCadastro);
+		}
+
+		return query.getResultList();
 	}
 }
